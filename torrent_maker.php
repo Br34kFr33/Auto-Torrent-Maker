@@ -13,7 +13,7 @@ function move($source, $dest) {
 	return 0;
 }
 
-function make_torrent($file_full, $ext, $new_dir, $file) {
+function make_torrent($file_full, $new_dir, $file) {
 
 	$file = pathinfo($file_full, PATHINFO_BASENAME);
 	$move_file = $new_dir.'/'.$file;
@@ -47,8 +47,7 @@ function scan_folder() {
 		if ($file == '.' || $file == '..') continue;
 		$file_full = $dir.'/'.$file;
 		if ($file_full == COMPLETE_DIR) continue;
-		$ext = pathinfo($file_full, PATHINFO_EXTENSION);
-		make_torrent($file_full, $ext, $dir_done, $file);
+		make_torrent($file_full, $dir_done, $file);
 	}
 }
 
