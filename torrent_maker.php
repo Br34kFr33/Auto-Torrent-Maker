@@ -5,6 +5,7 @@ define('SCAN_DIR', ROOT_DIR.'/scan');
 define('COMPLETE_DIR', ROOT_DIR.'/complete');
 define('TORRENT_DIR', ROOT_DIR.'/torrent');
 define('ANNOUNCE_URL', 'YOUR-TRACKER-ANNOUNCE-AND-PASSKEY-HERE');
+define('PIECE_SIZE', '21');
 
 function move($source, $dest) {
 	$cmd = 'mv "'.$source.'" "'.$dest.'"'; 
@@ -24,7 +25,7 @@ function make_torrent($file_full, $new_dir, $file) {
 	$info = pathinfo($file);
 	$output = TORRENT_DIR.'/'.$info['basename'].'.torrent';
 	if (file_exists($output)) unlink($output);
-	$cmd = "mktorrent '$move_file' -o '$output' -a ".ANNOUNCE_URL;
+	$cmd = "mktorrent '$move_file' -o '$output'-l".PIECE_SIZE." -a ".ANNOUNCE_URL;
 	echo $cmd."<br /> <br /> \n \n";
 	exec($cmd);
 	if (file_exists($output)) return $output;
