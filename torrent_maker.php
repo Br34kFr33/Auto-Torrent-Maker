@@ -23,9 +23,13 @@ function make_torrent($file_full, $new_dir, $file) {
 	if (!$rez) die('Cannot move file!');
 	
 	$info = pathinfo($file);
+	$watch = array("(", ")", "{", "}", "'", ";", "?", "<", ">", ":", "\"");
+	$info['basename'] = str_replace($watch, '.', $info['basename']);
+	$info['basename'] = str_replace('..', '.', $info['basename']);
+	
 	$output = TORRENT_DIR.'/'.$info['basename'].'.torrent';
 	if (file_exists($output)) unlink($output);
-	$cmd = "mktorrent '$move_file' -o '$output'-l".PIECE_SIZE." -a ".ANNOUNCE_URL;
+	$cmd = "mktorrent '$move_file' -o '$output'-l ".PIECE_SIZE." -a ".ANNOUNCE_URL;
 	echo $cmd."<br /> <br /> \n \n";
 	exec($cmd);
 	if (file_exists($output)) return $output;
